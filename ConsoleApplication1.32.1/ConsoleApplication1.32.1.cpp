@@ -43,10 +43,6 @@ public:
 	};
 };
 
-	enum dogTalents {
-		swimming, dancing, counting
-	};
-
 class Dog {
 	string name = "";
 public:
@@ -67,7 +63,6 @@ public:
 		Dog (string inname): name(inname) {
 			setdogName(inname);
 			cout << "\nЭто " << getName();
-			showTalents();
 	}
 };
 
@@ -75,6 +70,7 @@ int main()
 { 
 	setlocale(LC_ALL, "rus");
 	Dog dog1("Шарик");
+	dog1.showTalents();
 	return 0;
 }
 
