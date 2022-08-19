@@ -1,22 +1,22 @@
 ﻿// Cons. Задача oleApplication1.32.1.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы..
-//Урок 29. Задача 1. Суперпёс.
+// Урок 29. Задача 1. Суперпёс.
 
 #include <iostream>
 #include <string>
 #include <clocale>
+#include <vector>
 using namespace std;
-
-class Dog;
 
 class Talents {
 public:
-	virtual void talent() = 0;
+	virtual string talent() = 0;
 };
 
 class Swimming: public Talents{
 public:
-	virtual void talent() {
-		cout << "\nОн(а) умеет плавать.";
+	virtual string talent() {
+		string str = "\nОн(а) умеет плавать.";
+		return str;
 	}
 	Swimming() {
 		talent();
@@ -25,8 +25,9 @@ public:
 
 class Dancing : public Talents {
 public:
-	virtual void talent() {
-		cout << "\nОн(а) умеет танцевать.";
+	virtual string talent() {
+		string str = "\nОн(а) умеет танцевать.";
+		return str;
 	}
 	Dancing() {
 		talent();
@@ -35,8 +36,9 @@ public:
 
 class Counting : public Talents {
 public:
-	virtual void talent() {
-		cout << "\nОн(а) умеет считать.";
+	virtual string talent() {
+		string str= "\nОн(а) умеет считать.";
+		return str;
 	}
 	Counting() {
 		talent();
@@ -45,6 +47,7 @@ public:
 
 class Dog {
 	string name = "";
+	vector<string> storageTalants;
 public:
      void	setdogName(string dogName) {
 		name = dogName;
@@ -54,11 +57,17 @@ public:
 		return name;
 	}
 
+	void downloadTalants() {
+		Dancing dancing;
+		Counting counting;
+		storageTalants.push_back(dancing.talent());
+		storageTalants.push_back(counting.talent());
+	}
+
 	void showTalents() {
-	Dancing *dancing = new Dancing();
-	Counting* counting = new Counting;
-		delete dancing;
-		delete counting;
+		for (int i = 0; i < storageTalants.size(); ++i) {
+			cout << storageTalants[i];
+}
 }
 		Dog (string inname): name(inname) {
 			setdogName(inname);
@@ -70,6 +79,7 @@ int main()
 { 
 	setlocale(LC_ALL, "rus");
 	Dog dog1("Шарик");
+	dog1.downloadTalants();
 	dog1.showTalents();
 	return 0;
 }
