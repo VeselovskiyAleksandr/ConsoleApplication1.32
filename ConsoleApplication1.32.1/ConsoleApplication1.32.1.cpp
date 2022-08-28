@@ -9,46 +9,36 @@ using namespace std;
 
 class Talents {
 public:
-	virtual string talent() = 0;
+	virtual void talent() = 0;
 };
 
-class Swimming: public Talents{
+class Swimming: virtual public Talents{
 public:
-	virtual string talent() {
-		string str = "\nОн(а) умеет плавать.";
-		return str;
+	virtual void talent() {
+		cout<<"\nОн(а) умеет плавать.";
 	}
-	Swimming() {
-		talent();
-	};
+	Swimming() {};
 };
 
-class Dancing : public Talents {
+class Dancing : virtual public Talents {
 public:
-	virtual string talent() {
-		string str = "\nОн(а) умеет танцевать.";
-		return str;
+	virtual void talent() {
+		cout<< "\nОн(а) умеет танцевать.";
 	}
-	Dancing() {
-		talent();
-	};
+	Dancing() {};
 };
 
-class Counting : public Talents {
+class Counting : virtual public Talents {
 public:
-	virtual string talent() {
-		string str= "\nОн(а) умеет считать.";
-		return str;
+	virtual void talent() {
+		cout<< "\nОн(а) умеет считать.";
 	}
-	Counting() {
-		talent();
-	};
+	Counting() {};
 };
-
 class Dog {
 	string name = "";
-	vector<string> storageTalants;
 public:
+	Talents* storageTalants[3];
      void	setdogName(string dogName) {
 		name = dogName;
 	};
@@ -58,16 +48,13 @@ public:
 	}
 
 	void downloadTalants() {
-		Dancing dancing;
-		Counting counting;
-		storageTalants.push_back(dancing.talent());
-		storageTalants.push_back(counting.talent());
+		storageTalants[0]= new Dancing;
+		storageTalants[1]= new Counting;
 	}
 
 	void showTalents() {
-		for (int i = 0; i < storageTalants.size(); ++i) {
-			cout << storageTalants[i];
-}
+		storageTalants[0]->talent();
+		storageTalants[1]->talent();
 }
 		Dog (string inname): name(inname) {
 			setdogName(inname);
