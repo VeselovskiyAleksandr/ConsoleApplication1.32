@@ -14,82 +14,125 @@ struct BoundingBoxDimensions {
 
 class Shape {
 public:
-	virtual double square() = 0;
+	virtual double squareShape() = 0;
 	virtual BoundingBoxDimensions dimensions() = 0;
 	virtual string type() = 0;
+	virtual void printParams(Shape* shape) {
+		cout << "Type: " << shape->type();
+	};
 };
 
-class Circle : public Shape {
+class Circle :virtual public Shape {
 protected:
-	double pi = 4* atan(1), square = 0, radius=5;
+	double pi = 4 * atan(1), square = 0;
 
 public:
-	virtual double square() {
-		square = pi * radius*radius;
+	double parametr=0;
+
+	virtual double squareShape() {
+		square = pi * parametr * parametr;
 		return square;
-	}
+	};
 
 	virtual string type() {
 		string str = " Круг.";
 		return str;
 	}
-
-	BoundingBoxDimensions boundingBoxCircle;
-
-	BoundingBoxDimensions dimensions() {
 		BoundingBoxDimensions boundingBoxCircle;
-		boundingBoxCircle.width = 2 * radius;
-		boundingBoxCircle.height = 2 * radius;
-	}
 
-	void printParams(Shape* shape) {
-		cout << "\nФигура: " << shape->type();
-		cout << "\nПлощадь: " << shape->square();
-		cout << "\nШирина описывающего прямоугольника: " << boundingBoxCircle.width;
-		cout << "\nВысота описывающего прямоугольника: " << boundingBoxCircle.height;
-	}
+		virtual BoundingBoxDimensions dimensions() {
+			boundingBoxCircle.width = 2 * parametr;
+			boundingBoxCircle.height = 2 * parametr;
+		 cout << "\nШирина описывающего прямоугольника: " << boundingBoxCircle.width;
+		 cout << "\nВысота описывающего прямоугольника: " <<boundingBoxCircle.height;
+		 return boundingBoxCircle;
+		}
+};
 
-	Circle( inradius): radius(inradius) {
-	//	Circle circle();
-	//	square(inradius);
-		dimensions();
+class Rectangle: virtual public Shape {
+protected:
+	double square = 0;
 
+public:
+	double parametr = 0, secondParametr=0;
+
+	virtual double squareShape() {
+		square = parametr * secondParametr;
+		return square;
 	};
+
+	virtual string type() {
+		string str = " Прямоугольник.";
+		return str;
+	}
+	BoundingBoxDimensions boundingBoxRectangle;
+
+	virtual BoundingBoxDimensions dimensions() {
+		boundingBoxRectangle.width = parametr;
+		boundingBoxRectangle.height = secondParametr;
+		cout << "\nШирина описывающего прямоугольника: " << boundingBoxRectangle.width;
+		cout << "\nВысота описывающего прямоугольника: " << boundingBoxRectangle.height;
+		return boundingBoxRectangle;
+	}
 };
 
-class Triangle : public Shape {
+class Triangle: virtual public Shape {
+protected:
+	double square = 0;
+
 public:
-	
+	double parametr = 0, secondParametr = 0, thirdParametr=0;
+
+	virtual double squareShape() {
+		double perimeter =(parametr + secondParametr + thirdParametr)/2;
+		square = sqrt(perimeter*(perimeter- parametr)*(perimeter- secondParametr)*(perimeter- thirdParametr));
+		return square;
+	};
+
+	virtual string type() {
+		string str = " Треугольник.";
+		return str;
+	}
+	BoundingBoxDimensions boundingBoxTriangle;
+
+	virtual BoundingBoxDimensions dimensions() {
+		boundingBoxTriangle.width = (parametr* secondParametr* thirdParametr)/(2* squareShape());
+		boundingBoxTriangle.height = (parametr * secondParametr * thirdParametr) / (2 * squareShape());
+		cout << "\nШирина описывающего прямоугольника: " << boundingBoxTriangle.width;
+		cout << "\nВысота описывающего прямоугольника: " << boundingBoxTriangle.height;
+		return boundingBoxTriangle;
+	}
 };
 
-class Rectangle :public  Shape {
-	double secondParametr = 0, coordY = 0;
-public:
-	void setHandInput(double secPar) {
-		secondParametr = secPar;
-	}
-
-	double getSecondParametr() {
-		return secondParametr;
-	}
-
-	double getSquare() {
-	//	return getParametr() * getSecondParametr();
-	}
-
-	double getCoordY() {
-		return getSecondParametr() / 2;
-	}
-};
-
+ void printParams(Shape* shape) {
+			cout << "\nФигура: " << shape->type();
+		    cout << "\nПлощадь: " << shape->squareShape();
+			shape->dimensions();
+		}
 
 int main()
 {
 	setlocale(LC_ALL, "rus");
-	Circle circle(5.);
-//	circle->square();
-	//сircle->printParams(*circle);
-	//circle->dimensions();
+	Shape *shape;
+	Circle circle;
+	cout << "\nУкажите радиус круга.";
+	cin >> circle.parametr;
+	printParams(&circle);
+	Rectangle rectangle;
+	cout << "\nУкажите длину прямоугольника.";
+	cin >> rectangle.parametr;
+	cout << "\nУкажите щирину прямоугольника.";
+	cin >> rectangle.secondParametr;
+	printParams(&rectangle);
+	Triangle triangle;
+	cout << "\nУкажите первую сторону треугольника.";
+	cin >> triangle.parametr;
+	cout << "\nУкажите вторую сторону треугольника.";
+	cin >> triangle.secondParametr;
+	cout << "\nУкажите третью сторону треугольника.";
+	cin >> triangle.thirdParametr;
+	printParams(&triangle);
+	return 0;
 }
 
 // Запуск программы: CTRL+F5 или меню "Отладка" > "Запуск без отладки"
