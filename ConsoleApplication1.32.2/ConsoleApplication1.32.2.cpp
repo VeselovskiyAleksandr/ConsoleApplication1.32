@@ -17,9 +17,6 @@ public:
 	virtual double squareShape() = 0;
 	virtual BoundingBoxDimensions dimensions() = 0;
 	virtual string type() = 0;
-	virtual void printParams(Shape* shape) {
-		cout << "Type: " << shape->type();
-	};
 };
 
 class Circle :virtual public Shape {
@@ -117,20 +114,26 @@ int main()
 	Circle circle;
 	cout << "\nУкажите радиус круга.";
 	cin >> circle.parametr;
+	assert(circle.parametr>=0);
 	printParams(&circle);
 	Rectangle rectangle;
 	cout << "\nУкажите длину прямоугольника.";
 	cin >> rectangle.parametr;
+	assert(rectangle.parametr>=0);
 	cout << "\nУкажите щирину прямоугольника.";
 	cin >> rectangle.secondParametr;
+	assert(rectangle.secondParametr>=0);
 	printParams(&rectangle);
 	Triangle triangle;
 	cout << "\nУкажите первую сторону треугольника.";
 	cin >> triangle.parametr;
+	assert(triangle.parametr>=0);
 	cout << "\nУкажите вторую сторону треугольника.";
 	cin >> triangle.secondParametr;
+	assert(triangle.secondParametr>=0);
 	cout << "\nУкажите третью сторону треугольника.";
 	cin >> triangle.thirdParametr;
+	assert(triangle.thirdParametr>=0);
 	printParams(&triangle);
 	return 0;
 }
