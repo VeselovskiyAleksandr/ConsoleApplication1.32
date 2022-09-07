@@ -5,7 +5,6 @@
 #include <clocale>
 #include <string>
 #include <cmath>
-#include <cassert>
 using namespace std;
 
 struct BoundingBoxDimensions {
@@ -13,21 +12,40 @@ struct BoundingBoxDimensions {
 };
 
 class Shape {
+protected:
+	double square = 0, parametr = 0, secondParametr = 0, thirdParametr = 0;
 public:
 	virtual double squareShape() = 0;
 	virtual BoundingBoxDimensions dimensions() = 0;
 	virtual string type() = 0;
+	virtual void setParametr(double param, double secondParam, double thirdParam) = 0;
+	virtual double getParametr() = 0;
+	virtual double getSecondParametr() = 0;
+	virtual double getThirdParametr() = 0;
 };
 
 class Circle :virtual public Shape {
 protected:
-	double pi = 4 * atan(1), square = 0;
-
+	double pi = 4 * atan(1);
 public:
-	double parametr=0;
+	virtual void setParametr(double param, double secondParam = 0, double thirdParam = 0) {
+		parametr = param;
+	}
+
+	virtual double getParametr() {
+		return parametr;
+	}
+
+	virtual double getSecondParametr() {
+		return secondParametr;
+	}
+
+	virtual double getThirdParametr() {
+		return thirdParametr;
+	}
 
 	virtual double squareShape() {
-		square = pi * parametr * parametr;
+		square = pi * getParametr() * getParametr();
 		return square;
 	};
 
@@ -47,14 +65,26 @@ public:
 };
 
 class Rectangle: virtual public Shape {
-protected:
-	double square = 0;
-
 public:
-	double parametr = 0, secondParametr=0;
+	virtual void setParametr(double param, double secondParam, double thirdParam = 0) {
+		parametr = param;
+		secondParametr = secondParam;
+	}
+
+	virtual double getParametr() {
+		return parametr;
+	}
+
+	virtual double getSecondParametr() {
+		return secondParametr;
+	}
+
+	virtual double getThirdParametr() {
+		return thirdParametr;
+	}
 
 	virtual double squareShape() {
-		square = parametr * secondParametr;
+		square = getParametr() * getSecondParametr();
 		return square;
 	};
 
@@ -74,15 +104,28 @@ public:
 };
 
 class Triangle: virtual public Shape {
-protected:
-	double square = 0;
-
 public:
-	double parametr = 0, secondParametr = 0, thirdParametr=0;
+	virtual void setParametr(double param, double secondParam, double thirdParam) {
+		parametr = param;
+		secondParametr = secondParam;
+		thirdParametr = thirdParam;
+	}
+
+	virtual double getParametr() {
+		return parametr;
+	}
+
+	virtual double getSecondParametr() {
+		return secondParametr;
+	}
+
+	virtual double getThirdParametr() {
+		return thirdParametr;
+	}
 
 	virtual double squareShape() {
-		double perimeter =(parametr + secondParametr + thirdParametr)/2;
-		square = sqrt(perimeter*(perimeter- parametr)*(perimeter- secondParametr)*(perimeter- thirdParametr));
+		double perimeter =(getParametr() + getSecondParametr() + getThirdParametr())/2;
+		square = sqrt(perimeter*(perimeter- getParametr())*(perimeter- getSecondParametr())*(perimeter- getThirdParametr()));
 		return square;
 	};
 
@@ -110,30 +153,37 @@ public:
 int main()
 {
 	setlocale(LC_ALL, "rus");
+	double par = 0, secondPar = 0, thirdPar = 0;
 	Shape *shape;
 	Circle circle;
 	cout << "\nУкажите радиус круга.";
-	cin >> circle.parametr;
-	assert(circle.parametr>=0);
+	cin >> par;
+	while (par < 0) {
+		cout << "\nУкажите правильно радиус круга.";
+	}
+	circle.setParametr(par, secondPar = 0, thirdPar = 0);
 	printParams(&circle);
 	Rectangle rectangle;
 	cout << "\nУкажите длину прямоугольника.";
-	cin >> rectangle.parametr;
-	assert(rectangle.parametr>=0);
+	cin >> par;
 	cout << "\nУкажите щирину прямоугольника.";
-	cin >> rectangle.secondParametr;
-	assert(rectangle.secondParametr>=0);
+	cin >> secondPar;
+	while (par < 0||secondPar<0) {
+		cout << "\nУкажите правильно стороны прямоугольника.";
+	}
+	rectangle.setParametr(par, secondPar, thirdPar = 0);
 	printParams(&rectangle);
 	Triangle triangle;
 	cout << "\nУкажите первую сторону треугольника.";
-	cin >> triangle.parametr;
-	assert(triangle.parametr>=0);
+	cin >>par;
 	cout << "\nУкажите вторую сторону треугольника.";
-	cin >> triangle.secondParametr;
-	assert(triangle.secondParametr>=0);
+	cin >>secondPar;
 	cout << "\nУкажите третью сторону треугольника.";
-	cin >> triangle.thirdParametr;
-	assert(triangle.thirdParametr>=0);
+	cin >> thirdPar;
+	while (par < 0 || secondPar < 0||thirdPar<0) {
+		cout << "\nУкажите правильно стороны треугольника.";
+	}
+	triangle.setParametr(par, secondPar, thirdPar);
 	printParams(&triangle);
 	return 0;
 }
