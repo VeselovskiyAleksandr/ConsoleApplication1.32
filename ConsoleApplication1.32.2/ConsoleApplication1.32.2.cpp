@@ -156,33 +156,37 @@ int main()
 	double par = 0, secondPar = 0, thirdPar = 0;
 	Shape *shape;
 	Circle circle;
+	do{
 	cout << "\nУкажите радиус круга.";
 	cin >> par;
-	while (par < 0) {
-		cout << "\nУкажите правильно радиус круга.";
+	if (par < 0) {
+		cout << "\nРадиус круга указан неправильно.";
 	}
+	}while (par < 0);
 	circle.setParametr(par, secondPar = 0, thirdPar = 0);
 	printParams(&circle);
 	Rectangle rectangle;
+	do{
 	cout << "\nУкажите длину прямоугольника.";
 	cin >> par;
 	cout << "\nУкажите щирину прямоугольника.";
 	cin >> secondPar;
-	while (par < 0||secondPar<0) {
-		cout << "\nУкажите правильно стороны прямоугольника.";
-	}
+	if(par < 0 || secondPar < 0) {
+		cout << "\nСтороны прямоугольника указаны неправильно."; }
+	}while (par < 0 || secondPar < 0);
 	rectangle.setParametr(par, secondPar, thirdPar = 0);
 	printParams(&rectangle);
 	Triangle triangle;
+	do{
 	cout << "\nУкажите первую сторону треугольника.";
 	cin >>par;
 	cout << "\nУкажите вторую сторону треугольника.";
 	cin >>secondPar;
 	cout << "\nУкажите третью сторону треугольника.";
 	cin >> thirdPar;
-	while (par < 0 || secondPar < 0||thirdPar<0) {
-		cout << "\nУкажите правильно стороны треугольника.";
-	}
+	if (par < 0 || secondPar < 0 || thirdPar < 0) {
+		cout << "\nCтороны треугольника указаны неправильно."; }
+	}while (par < 0 || secondPar < 0 || thirdPar < 0);
 	triangle.setParametr(par, secondPar, thirdPar);
 	printParams(&triangle);
 	return 0;
